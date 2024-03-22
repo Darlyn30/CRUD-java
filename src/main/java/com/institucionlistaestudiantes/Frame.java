@@ -34,6 +34,7 @@ public class Frame extends javax.swing.JFrame {
         boxStatus = new javax.swing.JComboBox<>();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
@@ -98,6 +99,17 @@ public class Frame extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, -1, -1));
+
+        btnDelete.setBackground(new java.awt.Color(255, 255, 255));
+        btnDelete.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(0, 0, 0));
+        btnDelete.setText("ELIMINAR");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 290, 370));
 
@@ -234,6 +246,23 @@ public class Frame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if(JOptionPane.showConfirmDialog(null, "Estas seguro que deseas eliminar cliente", "salir", JOptionPane.YES_NO_CANCEL_OPTION) == 0){
+            try {
+                PreparedStatement ps = conexion.prepareStatement("DELETE FROM datosPersona where id='"+txtId.getText()+"'");
+                int indice = ps.executeUpdate();
+                if(indice >0){
+                    mostrarDatos();
+                    limpiar();
+                } else {
+                    System.out.println("no ha seleccionado fila");
+                }
+            }catch(SQLException ex){
+                System.out.println("Error al eliminar datos " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     
     private void mostrarDatos(){
         DefaultTableModel modelo = new DefaultTableModel();
@@ -272,6 +301,7 @@ public class Frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxStatus;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTable dataTable;
     private javax.swing.JMenuItem jMenuItem1;
